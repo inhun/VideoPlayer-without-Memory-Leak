@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Client</title>
+
+</head>
+<body>
+
+<canvas id="msg" width="960" height="720" style="display:inline-block"></canvas>
+
+
+<script>
+  var client = new WebSocket('{socket-url}');
+
+  var msg = document.getElementById('msg');
+
+
+  client.addEventListener('message', (e) => {
+    
+    let ctx = msg.getContext("2d");
+
+    let image = new Image();
+    image.src = window.URL.createObjectURL(e.data);
+ 
+    
+    image.addEventListener("load", (e) => {
+      ctx.drawImage(image, 0, 0, msg.width, msg.height);
+      window.URL.revokeObjectURL(image.src);
+    });
+
+  });
+
+  
+</script>
+</body>
+</html>
